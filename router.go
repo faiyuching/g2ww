@@ -81,12 +81,13 @@ func GwWorker() func(c *fiber.Ctx) {
 			{
 				"msgtype": "text",
 				"text": {
-					"content": "%s: %s\n查询详情:%s",
-					"mentioned_list":[@all"],
+					"content": "%s\n%s\n查看详情:%s",
+					"mentioned_list":["@all"],
 				}
 			  }
 			`, h.Title, h.Message, h.RuleUrl)
 		}
+		fmt.Println(msgStr)
 		jsonStr := []byte(msgStr)
 		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 		req.Header.Set("Content-Type", "application/json")
