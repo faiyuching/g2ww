@@ -89,7 +89,7 @@ func GwWorker() func(c *fiber.Ctx) {
 			{
 				"msgtype": "text",
 				"text": {
-					"content": "%s\n%s\n查看详情:%s",
+					"content": "%s\n%s\n查看详情: %s",
 				}
 			  }
 			`, h.Title, h.Message, h.RuleUrl)
