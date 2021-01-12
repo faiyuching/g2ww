@@ -75,6 +75,18 @@ func GwWorker() func(c *fiber.Ctx) {
 			}
 		  }
 		`, h.Title, h.Message, h.RuleUrl, h.ImageUrl)
+
+		if h.ImageUrl == "" {
+			msgStr = fmt.Sprintf(`
+			{
+				"msgtype": "text",
+				"text": {
+					"content": "%s: %s\n查询详情:%s",
+					"mentioned_list":[@all"],
+				}
+			  }
+			`, h.Title, h.Message, h.RuleUrl)
+		}
 		jsonStr := []byte(msgStr)
 		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 		req.Header.Set("Content-Type", "application/json")
