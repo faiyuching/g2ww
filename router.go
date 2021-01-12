@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber"
 )
@@ -67,6 +68,7 @@ func GwWorker() func(c *fiber.Ctx) {
 		//   }
 
 		url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + c.Params("key")
+		now := time.Now().Format("2006-01-02 15:04:05")
 
 		msgStr := fmt.Sprintf(`
 		{
@@ -87,12 +89,15 @@ func GwWorker() func(c *fiber.Ctx) {
 		if h.ImageUrl == "" {
 			msgStr = fmt.Sprintf(`
 			{
-				"msgtype": "text",
-				"text": {
-					"content": "%s\n%s\n查看详情: %s",
+				"msgtype": "markdown",
+				"markdown": {
+					"content": "**%s**\n
+					><font color=\"warning\">%s</font>\n
+					>时间: %s\n
+					>[点击查看详情](%s)",
 				}
 			  }
-			`, h.Title, h.Message, h.RuleUrl)
+			`, h.Title, h.Message, now, h.RuleUrl)
 		}
 		fmt.Println(msgStr)
 		jsonStr := []byte(msgStr)
