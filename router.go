@@ -58,6 +58,14 @@ func GwWorker() func(c *fiber.Ctx) {
 		// 	  ]
 		// 	}
 		//   }
+		// {
+		// 	"msgtype": "text",
+		// 	"text": {
+		// 		"content": "%s\n%s\n查看详情:%s",
+		// 		"mentioned_list":["@all"],
+		// 	}
+		//   }
+
 		url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + c.Params("key")
 
 		msgStr := fmt.Sprintf(`
@@ -82,7 +90,6 @@ func GwWorker() func(c *fiber.Ctx) {
 				"msgtype": "text",
 				"text": {
 					"content": "%s\n%s\n查看详情:%s",
-					"mentioned_list":["@all"],
 				}
 			  }
 			`, h.Title, h.Message, h.RuleUrl)
