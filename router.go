@@ -92,9 +92,9 @@ func GwWorker() func(c *fiber.Ctx) {
 				"msgtype": "markdown",
 				"markdown": {
 					"content": "**%s**\n
-					><font color=\"warning\">%s</font>
-					>时间: %s
-					>[点击查看详情](%s)",
+><font color=\"warning\">%s</font>
+>时间: %s
+>[点击查看详情](%s)",
 				}
 			  }
 			`, h.Title, h.Message, now, h.RuleUrl)
