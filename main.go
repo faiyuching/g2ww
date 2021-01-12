@@ -15,7 +15,7 @@ func main() {
 	if os.Getenv("DOCKER") != "" {
 		ListenAddress = "0.0.0.0:2408"
 	} else {
-		ListenAddress = "127.0.0.1:2408"
+		ListenAddress = "0.0.0.0:2408"
 	}
 
 	// Server Info
