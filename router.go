@@ -11,18 +11,18 @@ import (
 )
 
 type Hook struct {
-	dashboardId string `json:"dashboardId"`
-	evalMatches string `json:"evalMatches"`
-	ImageUrl    string `json:"imageUrl"`
-	Message     string `json:"message"`
-	orgId       string `json:"orgId"`
-	panelId     string `json:"panelId"`
-	ruleId      string `json:"ruleId"`
-	ruleName    string `json:"ruleName"`
-	RuleUrl     string `json:"ruleUrl"`
-	state       string `json:"state"`
-	tags        string `json:"tags"`
-	Title       string `json:"title"`
+	dashboardId int64         `json:"dashboardId"`
+	evalMatches []interface{} `json:"evalMatches"`
+	ImageUrl    string        `json:"imageUrl"`
+	Message     string        `json:"message"`
+	orgId       int64         `json:"orgId"`
+	panelId     int64         `json:"panelId"`
+	ruleId      int64         `json:"ruleId"`
+	ruleName    string        `json:"ruleName"`
+	RuleUrl     string        `json:"ruleUrl"`
+	state       string        `json:"state"`
+	tags        string        `json:"tags"`
+	Title       string        `json:"title"`
 }
 
 var sent_count int = 0
@@ -86,18 +86,24 @@ func GwWorker() func(c *fiber.Ctx) {
 		  }
 		`, h.Title, h.Message, h.RuleUrl, h.ImageUrl)
 
+		color := "warning"
+		if h.state == "ok" {
+			color = "info"
+		}
+		alertItem := fmt.Sprintf("<font color=\"%s\">%s</font>", color, h.Message)
+
 		if h.ImageUrl == "" {
 			msgStr = fmt.Sprintf(`
 			{
 				"msgtype": "markdown",
 				"markdown": {
 					"content": "**%s**\n
-><font color=\"warning\">%s</font>
+>%s
 >时间: %s
 >[点击查看详情](%s)",
 				}
 			  }
-			`, h.Title, h.Message, now, h.RuleUrl)
+			`, h.Title, alertItem, now, h.RuleUrl)
 		}
 		fmt.Println(msgStr)
 		jsonStr := []byte(msgStr)
