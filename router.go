@@ -27,18 +27,19 @@ import (
 
 */
 
+// Hook webhook body
 type Hook struct {
-	dashboardId int64         `json:"dashboardId"`
-	evalMatches []interface{} `json:"evalMatches"`
-	ImageUrl    string        `json:"imageUrl"`
+	dashboardID int64         `json:"dashboardId"`
+	EvalMatches []interface{} `json:"evalMatches"`
+	ImageURL    string        `json:"imageUrl"`
 	Message     string        `json:"message"`
-	orgId       int64         `json:"orgId"`
-	panelId     int64         `json:"panelId"`
-	ruleId      int64         `json:"ruleId"`
+	OrgID       int64         `json:"orgId"`
+	PanelID     int64         `json:"panelId"`
+	RuleID      int64         `json:"ruleId"`
 	ruleName    string        `json:"ruleName"`
-	RuleUrl     string        `json:"ruleUrl"`
-	state       string        `json:"state"`
-	tags        interface{}   `json:"tags"`
+	RuleURL     string        `json:"ruleUrl"`
+	State       string        `json:"state"`
+	Tags        interface{}   `json:"tags"`
 	Title       string        `json:"title"`
 }
 
@@ -102,16 +103,16 @@ func GwWorker() func(c *fiber.Ctx) {
 			  ]
 			}
 		  }
-		`, h.Title, h.Message, h.RuleUrl, h.ImageUrl)
+		`, h.Title, h.Message, h.RuleURL, h.ImageURL)
 
 		color := "warning"
-		fmt.Println(h.state)
-		if h.state == "ok" {
+		fmt.Println(h.State)
+		if h.State == "ok" {
 			color = "info"
 		}
 		alertItem := fmt.Sprintf(`<font color=\"%s\">%s</font>`, color, h.Message)
 
-		if h.ImageUrl == "" {
+		if h.ImageURL == "" {
 			msgStr = fmt.Sprintf(`
 			{
 				"msgtype": "markdown",
@@ -122,7 +123,7 @@ func GwWorker() func(c *fiber.Ctx) {
 >[点击查看详情](%s)",
 				}
 			  }
-			`, h.Title, alertItem, now, h.RuleUrl)
+			`, h.Title, alertItem, now, h.RuleURL)
 		}
 		fmt.Println(msgStr)
 		jsonStr := []byte(msgStr)
