@@ -10,6 +10,23 @@ import (
 	"github.com/gofiber/fiber"
 )
 
+/*
+{
+	"dashboardId":1,
+	"evalMatches":[],
+	"message":"service is down",
+	"orgId":1,
+	"panelId":47,
+	"ruleId":6,
+	"ruleName":"xxx alert",
+	"ruleUrl":"http://xxxx:3000/d/NUg5SDJMk/quark-dashboard?tab=alert\u0026viewPanel=47\u0026orgId=1",
+	"state":"ok",
+	"tags":{},
+	"title":"[OK] xxx alert"
+}
+
+*/
+
 type Hook struct {
 	dashboardId int64         `json:"dashboardId"`
 	evalMatches []interface{} `json:"evalMatches"`
@@ -21,7 +38,7 @@ type Hook struct {
 	ruleName    string        `json:"ruleName"`
 	RuleUrl     string        `json:"ruleUrl"`
 	state       string        `json:"state"`
-	tags        string        `json:"tags"`
+	tags        interface{}   `json:"tags"`
 	Title       string        `json:"title"`
 }
 
@@ -38,6 +55,7 @@ func GwStat() func(c *fiber.Ctx) {
 func GwWorker() func(c *fiber.Ctx) {
 	return func(c *fiber.Ctx) {
 		h := new(Hook)
+		fmt.Println(c.Body())
 		if err := c.BodyParser(h); err != nil {
 			fmt.Println(err)
 			c.Send("Error on JSON format")
@@ -87,6 +105,7 @@ func GwWorker() func(c *fiber.Ctx) {
 		`, h.Title, h.Message, h.RuleUrl, h.ImageUrl)
 
 		color := "warning"
+		fmt.Println(h.state)
 		if h.state == "ok" {
 			color = "info"
 		}
