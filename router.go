@@ -90,7 +90,7 @@ func GwWorker() func(c *fiber.Ctx) {
 		if h.state == "ok" {
 			color = "info"
 		}
-		alertItem := fmt.Sprintf("<font color=\"%s\">%s</font>", color, h.Message)
+		alertItem := fmt.Sprintf(`<font color=\"%s\">%s</font>`, color, h.Message)
 
 		if h.ImageUrl == "" {
 			msgStr = fmt.Sprintf(`
