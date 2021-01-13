@@ -29,14 +29,14 @@ import (
 
 // Hook webhook body
 type Hook struct {
-	dashboardID int64         `json:"dashboardId"`
+	DashboardID int64         `json:"dashboardId"`
 	EvalMatches []interface{} `json:"evalMatches"`
 	ImageURL    string        `json:"imageUrl"`
 	Message     string        `json:"message"`
 	OrgID       int64         `json:"orgId"`
 	PanelID     int64         `json:"panelId"`
 	RuleID      int64         `json:"ruleId"`
-	ruleName    string        `json:"ruleName"`
+	RuleName    string        `json:"ruleName"`
 	RuleURL     string        `json:"ruleUrl"`
 	State       string        `json:"state"`
 	Tags        interface{}   `json:"tags"`
@@ -106,7 +106,6 @@ func GwWorker() func(c *fiber.Ctx) {
 		`, h.Title, h.Message, h.RuleURL, h.ImageURL)
 
 		color := "warning"
-		fmt.Println(h.State)
 		if h.State == "ok" {
 			color = "info"
 		}
