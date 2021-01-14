@@ -3,7 +3,7 @@ version: '3'
 services:
 
     g2ww:
-        image: n0vad3v/g2ww
+        image: abnerzhao/g2ww
         restart: always
         ports:
             - 127.0.0.1:2408:2408

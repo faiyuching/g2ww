@@ -12,19 +12,28 @@ import (
 
 /*
 {
-	"dashboardId":1,
-	"evalMatches":[],
-	"message":"service is down",
-	"orgId":1,
-	"panelId":47,
-	"ruleId":6,
-	"ruleName":"xxx alert",
-	"ruleUrl":"http://xxxx:3000/d/NUg5SDJMk/quark-dashboard?tab=alert\u0026viewPanel=47\u0026orgId=1",
-	"state":"ok",
-	"tags":{},
-	"title":"[OK] xxx alert"
+  "dashboardId":1,
+  "evalMatches":[
+    {
+      "value":1,
+      "metric":"Count",
+      "tags":{}
+    }
+  ],
+  "imageUrl":"https://grafana.com/assets/img/blog/mixed_styles.png",
+  "message":"Notification Message",
+  "orgId":1,
+  "panelId":2,
+  "ruleId":1,
+  "ruleName":"Panel Title alert",
+  "ruleUrl":"http://localhost:3000/d/hZ7BuVbWz/test-dashboard?fullscreen\u0026edit\u0026tab=alert\u0026panelId=2\u0026orgId=1",
+  "state":"alerting",
+  "tags":{
+    "tag name":"tag value"
+  },
+  "title":"[Alerting] Panel Title alert"
 }
-
+Reference: https://grafana.com/docs/grafana/latest/alerting/notifications/
 */
 
 // Hook webhook body
@@ -43,20 +52,21 @@ type Hook struct {
 	Title       string        `json:"title"`
 }
 
-var sent_count int = 0
+var sentCount int = 0
 
+// GwStat stats check
 func GwStat() func(c *fiber.Ctx) {
 	return func(c *fiber.Ctx) {
-		stat_msg := "G2WW Server created by Nova Kwok is running! \nParsed & forwarded " + strconv.Itoa(sent_count) + " messages to WeChat Work!"
-		c.Send(stat_msg)
+		statMsg := "G2WW Server created by Nova Kwok is running! \nParsed & forwarded " + strconv.Itoa(sentCount) + " messages to WeChat Work!"
+		c.Send(statMsg)
 		return
 	}
 }
 
+// GwWorker Send to WeChat Work
 func GwWorker() func(c *fiber.Ctx) {
 	return func(c *fiber.Ctx) {
 		h := new(Hook)
-		fmt.Println(c.Body())
 		if err := c.BodyParser(h); err != nil {
 			fmt.Println(err)
 			c.Send("Error on JSON format")
@@ -136,6 +146,6 @@ func GwWorker() func(c *fiber.Ctx) {
 		}
 		defer resp.Body.Close()
 		c.Send(resp)
-		sent_count++
+		sentCount++
 	}
 }

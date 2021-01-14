@@ -1,6 +1,6 @@
 module g2ww
 
-go 1.13
+go 1.15
 
 require (
 	github.com/gofiber/compression v0.0.3
