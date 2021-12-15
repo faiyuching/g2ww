@@ -121,19 +121,19 @@ func GwWorker() func(c *fiber.Ctx) {
 		}
 		alertItem := fmt.Sprintf(`<font color=\"%s\">%s</font>`, color, h.Message)
 
-		if h.ImageURL == "" {
-			msgStr = fmt.Sprintf(`
+		// if h.ImageURL == "" {
+		msgStr = fmt.Sprintf(`
 			{
 				"msgtype": "markdown",
 				"markdown": {
 					"content": "**%s**\n
->%s
->时间: %s
->[点击查看详情](%s)",
+					>%s
+					>时间: %s
+					>[点击查看详情](%s)",
 				}
 			  }
 			`, h.Title, alertItem, now, h.RuleURL)
-		}
+		// }
 		fmt.Println(msgStr)
 		jsonStr := []byte(msgStr)
 		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
