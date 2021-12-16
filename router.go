@@ -99,21 +99,21 @@ func GwWorker() func(c *fiber.Ctx) {
 		url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + c.Params("key")
 		now := time.Now().Format("2006-01-02 15:04:05")
 
-		msgStr := fmt.Sprintf(`
-		{
-			"msgtype": "news",
-			"news": {
-			  "articles": [
-				{
-				  "title": "%s",
-				  "description": "%s",
-				  "url": "%s",
-				  "picurl": "%s"
-				}
-			  ]
-			}
-		  }
-		`, h.Title, h.Message, h.RuleURL, h.ImageURL)
+		// msgStr := fmt.Sprintf(`
+		// {
+		// 	"msgtype": "news",
+		// 	"news": {
+		// 	  "articles": [
+		// 		{
+		// 		  "title": "%s",
+		// 		  "description": "%s",
+		// 		  "url": "%s",
+		// 		  "picurl": "%s"
+		// 		}
+		// 	  ]
+		// 	}
+		//   }
+		// `, h.Title, h.Message, h.RuleURL, h.ImageURL)
 
 		color := "warning"
 		if h.State == "ok" {
@@ -122,7 +122,7 @@ func GwWorker() func(c *fiber.Ctx) {
 		alertItem := fmt.Sprintf(`<font color=\"%s\">%s</font>`, color, h.Message)
 
 		// if h.ImageURL == "" {
-		msgStr = fmt.Sprintf(`
+		msgStr := fmt.Sprintf(`
 			{
 				"msgtype": "markdown",
 				"markdown": {
